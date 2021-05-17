@@ -51,6 +51,7 @@ def checkin():
 
 
 def login(username, password):
+    print(username)
     rand = str(round(time.time() * 1000))
     url = f'{domain}/signin?c={rand}'
     data = {
