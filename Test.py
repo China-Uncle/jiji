@@ -1,7 +1,9 @@
+# -*- coding: utf8 -*-
 from urllib.parse import urlparse
 
 import requests
 import time
+import re
 
 tianyi_session = requests.Session()
 
@@ -31,11 +33,18 @@ def main():
 
 # 获取主页地址
 def getindexurl():
-    url = 'http://sh.china-noss-nrds.com/go_config/go?u=qq.football'
+    #url = 'http://sh.china-noss-nrds.com/go_config/go?u=qq.football'
+    url = 'https://www.ebay.com/usr/chinag'
     response = tianyi_session.get(url)
+    pattern = re.compile('inline_value">[^/]+/([^/]+)')
+    url = 'http://'+pattern.findall(response.text)[0].strip()
+    get = tianyi_session.get(url)
+    # str = u''
+    # print(pattern.search(response.text))
     global domain
-    uri = urlparse(response.json()['url'])
-    domain = f'{uri.scheme}://{uri.netloc}'
+    domain = get.url
+   # uri =pattern.findall(response.text)[0].strip() #urlparse(response.json()['url'])
+   # domain = f'{uri.scheme}://{uri.netloc}'
     # domain = response.json()['url']
 
 
